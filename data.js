@@ -112,6 +112,12 @@ class DataManager {
     saveData(key, data) {
         try {
             localStorage.setItem(key, JSON.stringify(data));
+            
+            // Sincronizar com Firebase se disponível
+            if (window.firebaseSync && window.firebaseSync.userId) {
+                window.firebaseSync.syncToFirebase(key, data);
+            }
+            
             return true;
         } catch (error) {
             console.error('Erro ao salvar dados:', error);

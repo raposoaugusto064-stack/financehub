@@ -59,6 +59,14 @@ function login(password) {
         appState.isLoggedIn = true;
         appState.currentUser = dataManager.getUser();
         
+        // Inicializar sincronização com Firebase
+        const userId = window.firebaseSync.constructor.generateUserId(password);
+        window.firebaseSync.initialize(userId).then(success => {
+            if (success) {
+                console.log('Sincronização com Firebase ativada');
+            }
+        });
+        
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('appContainer').classList.remove('hidden');
         
